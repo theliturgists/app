@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: ktmud/cached-dependencies@v1
+      - uses: ./.github/actions/cache/npm
 
       - name: Run eslint
         run: |
@@ -53,7 +53,7 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: ktmud/cached-dependencies@v1
+      - uses: ./.github/actions/cache/npm
 
       - name: Run tests
         run: |
@@ -81,11 +81,7 @@ jobs:
           node-version: '12'
       - uses: ruby/setup-ruby@v1
 
-      - uses: ktmud/cached-dependencies@v1
-        with:
-          caches: ${{ github.workspace }}/.github/workflows/caches/ios.js
-          bashlib: ${{ github.workspace }}/.github/workflows/bashlib/ios.sh
-          parallel: true
+      - uses: ./.github/actions/cache/ios
 
       - uses: webfactory/ssh-agent@v0.4.1
         with:
@@ -112,11 +108,7 @@ jobs:
           node-version: '12'
       - uses: ruby/setup-ruby@v1
 
-      - uses: ktmud/cached-dependencies@v1
-        with:
-          caches: ${{ github.workspace }}/.github/workflows/caches/android.js
-          bashlib: ${{ github.workspace }}/.github/workflows/bashlib/android.sh
-          parallel: true
+      - uses: ./.github/actions/cache/android
 
       - run: npm run ci:generate-app-config
       - run: |
@@ -140,11 +132,7 @@ jobs:
           node-version: '12'
       - uses: ruby/setup-ruby@v1
 
-      - uses: ktmud/cached-dependencies@v1
-        with:
-          caches: ${{ github.workspace }}/.github/workflows/caches/ios.js
-          bashlib: ${{ github.workspace }}/.github/workflows/bashlib/ios.sh
-          parallel: true
+      - uses: ./.github/actions/cache/ios
 
       - name: Install Detox CLI
         run: npm install -g detox-cli
@@ -204,7 +192,7 @@ jobs:
           node-version: '12'
       - uses: ruby/setup-ruby@v1
 
-      - uses: ktmud/cached-dependencies@v1
+      - uses: ./.github/actions/cache/android
 
       - name: Install Detox CLI
         run: npm install -g detox-cli
@@ -293,7 +281,7 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: ktmud/cached-dependencies@v1
+      - uses: ./.github/actions/cache/npm
       - name: install Expo CLI
         run: npm install -g expo-cli@4.0.17
       - name: Publish to Expo
@@ -318,7 +306,7 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: ktmud/cached-dependencies@v1
+      - uses: ./.github/actions/cache/npm
       - name: install Expo CLI
         run: npm install -g expo-cli@4.0.17
       - name: Publish to Expo
@@ -345,7 +333,7 @@ jobs:
         with:
           node-version: '12'
 
-      - uses: ktmud/cached-dependencies@v1
+      - uses: ./.github/actions/cache/npm
       - name: install Expo CLI
         run: npm install -g expo-cli@4.0.17
       - name: Publish to Expo
