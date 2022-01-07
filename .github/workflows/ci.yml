@@ -87,6 +87,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.FASTLANE_MATCH_DEPLOY_PRIVATE_KEY }}
 
+      - uses: mikehardy/buildcache-action@v1
+        with:
+          cache_key: main-ios-buildcache
+
       - run: npm run ci:generate-app-config
       - run: npm run build:ios
         name: Build the app
@@ -143,6 +147,10 @@ jobs:
         run: |
           brew tap wix/brew
           brew install applesimutils
+
+      - uses: mikehardy/buildcache-action@v1
+        with:
+          cache_key: detox-ios-buildcache
 
       - name: Run detox build and tests
         run: |

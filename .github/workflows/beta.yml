@@ -37,6 +37,10 @@ jobs:
       - uses: webfactory/ssh-agent@v0.4.1
         with:
           ssh-private-key: ${{ secrets.FASTLANE_MATCH_DEPLOY_PRIVATE_KEY }}
+
+      - uses: mikehardy/buildcache-action@v1
+        with:
+          cache_key: main-ios-buildcache
         
       - run: npm run ci:generate-app-config
       - run: npm run beta:ios
