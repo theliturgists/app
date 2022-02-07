@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.0](https://github.com/theliturgists/app/compare/v1.0.1-beta.17...v1.1.0-beta.0) (2022-02-07)
+
+
+### Features
+
+* enable over-the-air updates ([6223c25](https://github.com/theliturgists/app/commit/6223c25e7de356212ac99404d9e19881998272b1))
+
+
+### Bug Fixes
+
+* restore 'now playing' strip ([aa5416f](https://github.com/theliturgists/app/commit/aa5416fbf929ab0b20028f3ae5140f1c5ba0dcb2))
+* restore icon color for active tab ([a5d89c9](https://github.com/theliturgists/app/commit/a5d89c9cbb3e0f24c22a2340e612cd423df3bfeb))
+* restore menu button on liturgies screen ([9328b80](https://github.com/theliturgists/app/commit/9328b80581e709e44738432007c0981ee5d00fcd))
+
 ### [1.0.1-beta.17](https://github.com/theliturgists/app/compare/v1.0.1-beta.16...v1.0.1-beta.17) (2022-01-20)
 
 
