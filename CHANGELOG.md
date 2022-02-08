@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-beta.1](https://github.com/theliturgists/app/compare/v1.1.0-beta.0...v1.1.0-beta.1) (2022-02-08)
+
 ## [1.1.0-beta.0](https://github.com/theliturgists/app/compare/v1.0.1-beta.17...v1.1.0-beta.0) (2022-02-07)
 
 
