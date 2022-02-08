@@ -7,7 +7,6 @@ const util = require('util');
 const execPromise = util.promisify(exec);
 
 const remark = require('remark');
-const remarkHtml = require('remark-html');
 
 const { readVersion } = require('@brettdh/standard-version-expo/android/native/buildnum/increment');
 
@@ -33,6 +32,18 @@ function execWithChild(cmd, options) {
   return child;
 }
 
+function truncate(text) {
+  // Play Store has a max changelog size it will accept. We probably won't hit this
+  // most of the time, so for now just don't bother trying to trim individual list items;
+  // just put in a fallback message to avoid the whole publish process failing.
+  const limit = 500;
+  if (text.length >= limit) {
+    return 'More stuff in this release than fits in this description!';
+  }
+
+  return text;
+}
+
 (async () => {
   try {
     const versionFile = 'android/app/build.gradle';
@@ -52,8 +63,12 @@ function execWithChild(cmd, options) {
       changelog = "Internal improvements and fixes only; (hopefully) nothing you'll notice.";
     }
 
-    const html = await remark().use(remarkHtml).process(changelog);
-    await writeFile(filename, html);
+    const strip = await import('strip-markdown');
+    let plain = String(await remark().use(strip).process(changelog));
+    // also remove markdown links
+    plain = plain.replace(/ \(\[[a-z0-9]+\]\([^)]+\)\)/g, '');
+    plain = plain.replace(/^\* +/gm, '* ');
+    await writeFile(filename, truncate(plain));
 
     await execPromise(`git add ${filename}`);
   } catch (err) {

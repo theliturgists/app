@@ -53,8 +53,8 @@ platform :ios do
       # This function runs in the ios dir, so look one level up
       changelog_path: "../CHANGELOG.md",
       section_identifier: "[#{version}]",
-      excluded_markdown_elements: [],
-    )
+      excluded_markdown_elements: ['###'],
+    ).gsub(/ \(\[[a-z0-9]+\]\([^)]+\)\)/, '')  # remove markdown link noise
     if changelog.empty?
       changelog = "Internal improvements and fixes only; (hopefully) nothing you'll notice."
     end
