@@ -9,6 +9,7 @@ import { storeResumableDownload, storeDownload, removeDownloadMapping, storeProg
 import { getResumableDownload } from './selectors';
 import { getItemDownloadPath } from './utils';
 import { getMediaSource } from '../orm/utils';
+import { showErrorMessage } from '../../../showError';
 
 
 const startDownloadEpic = (action$, state$) =>
@@ -47,7 +48,11 @@ const startDownloadEpic = (action$, state$) =>
             );
             subscriber.next(storeResumableDownload(download.savable()));
             download.downloadAsync()
-              .then(() => subscriber.next(storeDownload(item)));
+              .then(() => subscriber.next(storeDownload(item)))
+              .catch((e) => {
+                showErrorMessage(`Error downloading item "${item.title}"`, e.message);
+                throw e;
+              });
           });
       })
     )),

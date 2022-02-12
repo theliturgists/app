@@ -11,7 +11,7 @@ export function getItemDownloadRelativePath(item) {
   const mediaSource = getMediaSource(item);
   const elements = parse(mediaSource.uri).pathname.split('/');
   const filename = elements[elements.length - 1];
-  return path.join('downloads', type, `${id}-${filename}`);
+  return path.join('downloads', type, `${id}${path.extname(filename)}`);
 }
 
 export function getItemDownloadPath(item) {
