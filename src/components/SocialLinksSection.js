@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 
-import mastodonIcon from '../../assets/discussion-buttons/mastodon.png';
 import slackIcon from '../../assets/discussion-buttons/slack.png';
 
 const styles = StyleSheet.create({
@@ -44,19 +43,11 @@ const styles = StyleSheet.create({
     height: undefined,
     resizeMode: 'contain',
   },
-  mastodonIconContainer: {
-  },
   slackIconContainer: {
   },
 });
 
 const links = [
-  {
-    imageSource: mastodonIcon,
-    url: 'https://social.theliturgists.com',
-    style: styles.mastodonIconContainer,
-    label: 'Talk on Mastodon',
-  },
   {
     imageSource: slackIcon,
     url: 'https://join.slack.com/t/theliturgistsspace/shared_invite/enQtODY2MTA2OTI0NDIzLWZhYjIzZmQ3NTI3YTFiY2Q2M2M2NDQwODUwYmYzMTFhNmYwZmUwMWVmZWU4NmY3MzcwYzVkNDFlMWY1ZTAzMjI',

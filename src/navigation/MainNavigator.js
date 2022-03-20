@@ -63,6 +63,7 @@ const PodcastsNavigator = () => (
       component={PodcastsScreen}
       options={{
         ...getCommonNavigationOptions(),
+        title: 'Podcasts',
       }}
     />
     <PodcastsStack.Screen
@@ -147,6 +148,7 @@ const LiturgiesNavigator = () => (
       component={LiturgiesScreen}
       options={{
         ...getCommonNavigationOptions(),
+        title: 'Liturgies',
       }}
     />
     <LiturgiesStack.Screen
@@ -221,15 +223,16 @@ const TabsNavigator = () => (
       }}
     />
     <Tabs.Screen
-      name="Podcasts"
+      name="PodcastsTab"
       component={PodcastsNavigator}
       options={{
         ...getCommonNavigationOptions(),
         tabBarIcon: PodcastsIcon,
+        title: 'Podcasts',
       }}
     />
     <Tabs.Screen
-      name="Meditations"
+      name="MeditationsTab"
       component={MeditationsNavigator}
       options={{
         ...getCommonNavigationOptions(),
@@ -238,11 +241,12 @@ const TabsNavigator = () => (
       }}
     />
     <Tabs.Screen
-      name="Liturgies"
+      name="LiturgiesTab"
       component={LiturgiesNavigator}
       options={{
         ...getCommonNavigationOptions(),
         tabBarIcon: LiturgiesIcon,
+        title: 'Liturgies',
       }}
     />
   </Tabs.Navigator>
@@ -334,7 +338,7 @@ const AboutWithHeader = () => (
 const ModalsStack = createStackNavigator();
 const ModalsNavigator = () => (
   <ModalsStack.Navigator mode="modal" headerMode="none">
-    <ModalsStack.Screen name="Main" component={TabsNavigator} />
+    <ModalsStack.Screen name="Tabs" component={TabsNavigator} />
     <ModalsStack.Screen name="Patreon" component={PatreonNavigator} />
     <ModalsStack.Screen name="Player" component={PlayerWithHeader} />
     <ModalsStack.Screen name="Community" component={CommunityNavigator} />
