@@ -1,5 +1,5 @@
 export function token(state) {
-  return state.auth.patreonShimToken;
+  return state.auth.liturgistsToken;
 }
 
 export function isAuthenticated(state) {

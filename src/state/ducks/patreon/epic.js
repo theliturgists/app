@@ -30,7 +30,7 @@ function getPatreonDetails(token) {
       detailsUrl,
       {
         headers: {
-          'x-patreonshim-token': token,
+          'x-theliturgists-token': token,
         },
       },
     )
