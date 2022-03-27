@@ -19,6 +19,7 @@ esac
 case ${action} in
   beta) ;;
   build) ;;
+  release) ;;
   *) usage ;;
 esac
 
