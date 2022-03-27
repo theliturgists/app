@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/theliturgists/app/compare/v1.1.0-beta.1...v1.1.0) (2022-03-27)
+
+
+### Bug Fixes
+
+* navigate from home screen item tap ([7fc9dbd](https://github.com/theliturgists/app/commit/7fc9dbdb70d224ac6e6d82a9e434aa984a252be5))
+* use only item id and file extension for local file paths ([cb5274c](https://github.com/theliturgists/app/commit/cb5274c34f6d05543e89b8acb97e3ac77cc2ec63))
+
 ## [1.1.0-beta.1](https://github.com/theliturgists/app/compare/v1.1.0-beta.0...v1.1.0-beta.1) (2022-02-08)
 
 ## [1.1.0-beta.0](https://github.com/theliturgists/app/compare/v1.0.1-beta.17...v1.1.0-beta.0) (2022-02-07)

@@ -1,0 +1,4 @@
+### Bug Fixes
+
+* navigate from home screen item tap
+* use only item id and file extension for local file paths
