@@ -23,7 +23,7 @@ jobs:
 
   deploy-ios:
     runs-on: macos-10.15
-    name: Deploy iOS beta to TestFlight
+    name: Deploy iOS release to App Store
     environment:
       name: iOS Beta
     steps:
@@ -54,7 +54,7 @@ jobs:
 
   deploy-android:
     runs-on: macos-10.15
-    name: Deploy Android beta to Google Play
+    name: Deploy Android release to Play Store
     environment:
       name: Android Beta
     steps:
