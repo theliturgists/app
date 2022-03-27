@@ -7,6 +7,8 @@
     "test": "jest",
     "lint": "./node_modules/.bin/eslint --cache index.js ./src/* ./__tests__/*",
     "commit": "cz",
+    "appstore:ios": "scripts/build.sh ios release",
+    "appstore:android": "scripts/build.sh android release",
     "beta:ios": "scripts/build.sh ios beta",
     "beta:android": "scripts/build.sh android beta",
     "build:ios": "scripts/build.sh ios build",

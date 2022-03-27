@@ -26,6 +26,21 @@ def run_build
   )
 end
 
+def get_changelog
+  # This code runs in the ios/fastlane dir
+  version = JSON.parse(File.read('../../package.json'))["version"]
+  changelog = read_changelog(
+    # This function runs in the ios dir, so look one level up
+    changelog_path: "../CHANGELOG.md",
+    section_identifier: "[#{version}]",
+    excluded_markdown_elements: ['###'],
+  ).gsub(/ \(\[[a-z0-9]+\]\([^)]+\)\)/, '')  # remove markdown link noise
+  if changelog.empty?
+    changelog = "Internal improvements and fixes only; (hopefully) nothing you'll notice."
+  end
+  changelog
+end
+
 platform :ios do
   before_all do
     if ENV.key? 'CI'
@@ -38,7 +53,7 @@ platform :ios do
     end
   end
 
-  desc "Run a new beta build (but don't upload it)"
+  desc "Run a new build (but don't upload it)"
   lane :build do
     run_build
   end
@@ -47,17 +62,15 @@ platform :ios do
   lane :beta do
     run_build
 
-    # This code runs in the ios/fastlane dir
-    version = JSON.parse(File.read('../../package.json'))["version"]
-    changelog = read_changelog(
-      # This function runs in the ios dir, so look one level up
-      changelog_path: "../CHANGELOG.md",
-      section_identifier: "[#{version}]",
-      excluded_markdown_elements: ['###'],
-    ).gsub(/ \(\[[a-z0-9]+\]\([^)]+\)\)/, '')  # remove markdown link noise
-    if changelog.empty?
-      changelog = "Internal improvements and fixes only; (hopefully) nothing you'll notice."
-    end
+    changelog = get_changelog
     upload_to_testflight(changelog: changelog, api_key: api_key)
+  end
+
+  desc "Push a new release build to the App Store"
+  lane :release do
+    run_build
+
+    changelog = get_changelog
+    upload_to_app_store(changelog: changelog, api_key: api_key)
   end
 end

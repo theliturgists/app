@@ -31,8 +31,8 @@ platform :android do
   end
 
   desc "Deploy a new version to the Google Play Store"
-  lane :deploy do
+  lane :release do
     run_build
-    upload_to_play_store(skip_upload_apk: true)
+    upload_to_play_store(skip_upload_apk: true, release_status: 'draft')
   end
 end
