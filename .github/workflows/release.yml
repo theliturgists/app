@@ -25,7 +25,7 @@ jobs:
     runs-on: macos-10.15
     name: Deploy iOS release to App Store
     environment:
-      name: iOS Beta
+      name: iOS Production
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1 
@@ -56,7 +56,7 @@ jobs:
     runs-on: macos-10.15
     name: Deploy Android release to Play Store
     environment:
-      name: Android Beta
+      name: Android Production
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1 
