@@ -71,6 +71,6 @@ platform :ios do
     run_build
 
     changelog = get_changelog
-    upload_to_app_store(changelog: changelog, api_key: api_key)
+    upload_to_app_store(release_notes: changelog, api_key: api_key)
   end
 end
