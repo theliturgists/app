@@ -76,6 +76,7 @@ platform :ios do
       release_notes: {
         'default': changelog
       },
+      precheck_include_in_app_purchases: false,  # doesn't work with api key yet
       api_key: api_key
     )
   end
