@@ -72,6 +72,7 @@ platform :ios do
 
     changelog = get_changelog
     upload_to_app_store(
+      force: true,  # Skip interactive prompt for validating release notes html
       release_notes: {
         'default': changelog
       },
