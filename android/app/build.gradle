@@ -105,8 +105,8 @@ android {
         applicationId "com.theliturgists.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 38
-        versionName "1.1.5"
+        versionCode 39
+        versionName "1.1.6"
 
         // This will later be used to control the test apk build type
         testBuildType System.getProperty('testBuildType', 'debug')
