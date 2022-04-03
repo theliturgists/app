@@ -8,7 +8,7 @@ on:
       - '*'
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_12.2.app
+  DEVELOPER_DIR: /Applications/Xcode_13.2.app
 
 jobs:
   cancel-previous:
@@ -22,7 +22,7 @@ jobs:
           access_token: ${{ github.token }}
 
   eslint:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     steps:
       - uses: actions/checkout@v1
@@ -45,7 +45,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   unit-tests:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     steps:
       - uses: actions/checkout@v1
@@ -70,7 +70,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   build-ios:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     needs:
       - unit-tests
@@ -101,7 +101,7 @@ jobs:
           APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
 
   build-android:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     needs:
       - unit-tests
@@ -129,7 +129,7 @@ jobs:
           ANDROID_RELEASE_PASSWORD: ${{ secrets.ANDROID_RELEASE_PASSWORD }}
 
   detox-ios:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     needs:
       - unit-tests
@@ -193,7 +193,7 @@ jobs:
           path: screenshots
 
   detox-android:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     needs:
       - unit-tests
@@ -275,7 +275,7 @@ jobs:
           path: screenshots
 
   expo-publish-production:
-    runs-on: macos-10.15
+    runs-on: macos-11
     needs:
       - unit-tests
       - detox-ios
@@ -300,7 +300,7 @@ jobs:
         run: npm run ci:deploy
 
   expo-publish-beta:
-    runs-on: macos-10.15
+    runs-on: macos-11
     needs:
       - unit-tests
       - detox-ios
@@ -325,7 +325,7 @@ jobs:
         run: npm run ci:deploy
 
   expo-publish-pr: 
-    runs-on: macos-10.15
+    runs-on: macos-11
     needs:
       - unit-tests
       - detox-ios
