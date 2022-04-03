@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -120,9 +120,11 @@ const { store, persistor } = configureStore();
 
 const AppLoading = () => {
   useEffect(() => {
-    SplashScreen.preventAutoHideAsync().catch(() => {});
+    // eslint-disable-next-line no-console
+    const warn = e => console.warn(e);
+    SplashScreen.preventAutoHideAsync().catch(warn);
     return () => {
-      SplashScreen.hideAsync().catch(() => {});
+      SplashScreen.hideAsync().catch(warn);
     };
   });
   return null;
@@ -147,11 +149,13 @@ const Root = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={<AppLoading />} persistor={persistor}>
-        <ReduxApp />
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PersistGate loading={<AppLoading />} persistor={persistor}>
+          <ReduxApp />
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 

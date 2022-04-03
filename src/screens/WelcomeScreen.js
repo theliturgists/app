@@ -201,8 +201,8 @@ class Sample extends React.Component {
         }
       },
     ).then(
-      ({ sound, status }) => {
-        this.setState(() => ({ sound, status }));
+      ({ sound }) => {
+        this.setState(() => ({ sound }));
         return sound;
       },
     );
@@ -235,12 +235,14 @@ class Sample extends React.Component {
   }
 }
 
+const samplePropType = PropTypes.shape({
+  // the "number" is the asset number from a require() of the audio file
+  source: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+});
+
 Sample.propTypes = {
-  sample: PropTypes.shape({
-    // the "number" is the asset number from a require() of the audio file
-    source: PropTypes.number.isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
+  sample: samplePropType.isRequired,
 };
 
 const testimonialStyles = StyleSheet.create({
@@ -351,7 +353,16 @@ const Slide = ({ item, closeWelcome }) => (
 );
 
 Slide.propTypes = {
-  item: PropTypes.shape({}).isRequired,
+  item: PropTypes.shape({
+    imageStyle: PropTypes.shape({}),
+    image: appPropTypes.imageSource.isRequired,
+    sample: samplePropType,
+    testimonial: PropTypes.shape(Testimonial.propTypes),
+    title: PropTypes.string.isRequired,
+    textTestID: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    showContinueButton: PropTypes.bool,
+  }).isRequired,
   closeWelcome: PropTypes.func.isRequired,
 };
 

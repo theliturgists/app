@@ -1,63 +1,46 @@
-platform :ios, '10.0'
+platform :ios, '12.0'
 
-require_relative '../node_modules/react-native-unimodules/cocoapods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
+require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
+
+require 'json'
+podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
 target 'TheLiturgists' do
   rnPrefix = "../node_modules/react-native"
 
-  # React Native and its dependencies
-  pod 'FBLazyVector', :path => "#{rnPrefix}/Libraries/FBLazyVector"
-  pod 'FBReactNativeSpec', :path => "#{rnPrefix}/Libraries/FBReactNativeSpec"
-  pod 'RCTRequired', :path => "#{rnPrefix}/Libraries/RCTRequired"
-  pod 'RCTTypeSafety', :path => "#{rnPrefix}/Libraries/TypeSafety"
-  pod 'React', :path => "#{rnPrefix}/"
-  pod 'React-Core', :path => "#{rnPrefix}/"
-  pod 'React-CoreModules', :path => "#{rnPrefix}/React/CoreModules"
-  pod 'React-RCTActionSheet', :path => "#{rnPrefix}/Libraries/ActionSheetIOS"
-  pod 'React-RCTAnimation', :path => "#{rnPrefix}/Libraries/NativeAnimation"
-  pod 'React-RCTBlob', :path => "#{rnPrefix}/Libraries/Blob"
-  pod 'React-RCTImage', :path => "#{rnPrefix}/Libraries/Image"
-  pod 'React-RCTLinking', :path => "#{rnPrefix}/Libraries/LinkingIOS"
-  pod 'React-RCTNetwork', :path => "#{rnPrefix}/Libraries/Network"
-  pod 'React-RCTSettings', :path => "#{rnPrefix}/Libraries/Settings"
-  pod 'React-RCTText', :path => "#{rnPrefix}/Libraries/Text"
-  pod 'React-RCTVibration', :path => "#{rnPrefix}/Libraries/Vibration"
-  pod 'React-Core/RCTWebSocket', :path => "#{rnPrefix}/"
-  pod 'React-Core/DevSupport', :path => "#{rnPrefix}/"
-  pod 'React-cxxreact', :path => "#{rnPrefix}/ReactCommon/cxxreact"
-  pod 'React-jsi', :path => "#{rnPrefix}/ReactCommon/jsi"
-  pod 'React-jsiexecutor', :path => "#{rnPrefix}/ReactCommon/jsiexecutor"
-  pod 'React-jsinspector', :path => "#{rnPrefix}/ReactCommon/jsinspector"
-  pod 'ReactCommon/jscallinvoker', :path => "#{rnPrefix}/ReactCommon"
-  pod 'ReactCommon/turbomodule/core', :path => "#{rnPrefix}/ReactCommon"
-  pod 'Yoga', :path => "#{rnPrefix}/ReactCommon/yoga"
-  pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
-  pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
-  pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
+  use_expo_modules!
+  config = use_native_modules!
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
+  )
 
-  # Other native modules
-
-  # Automatically detect installed unimodules
-  use_unimodules!
-
-  # react-native-cli autolinking
-  use_native_modules!
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  use_flipper!({'Flipper' => '0.140.0', 'Flipper-Folly' => '~> 2.6'}) # should match the version of your Flipper client app
 end
 
-post_install do |pi|
-  pi.pods_project.targets.each do |t|
-    t.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+post_install do |installer|
+  flipper_post_install(installer)
+  react_native_post_install(installer)
+
+  # Workaround `Cycle inside FBReactNativeSpec` error for react-native 0.64
+  # Reference: https://github.com/software-mansion/react-native-screens/issues/842#issuecomment-812543933
+  installer.pods_project.targets.each do |target|
+    if (target.name&.eql?('FBReactNativeSpec'))
+      target.build_phases.each do |build_phase|
+        if (build_phase.respond_to?(:name) && build_phase.name.eql?('[CP-User] Generate Specs'))
+          target.build_phases.move(build_phase, 0)
+        end
+      end
+    end
+
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
   end
-end
-
-# https://stackoverflow.com/questions/47035899/react-native-image-not-showing-how-do-i-fix
-pre_install do |installer|
-  puts("Image fix for ios14: remove this when upgrading to >= 0.63.3")
-  find = "_currentFrame.CGImage;"
-  replace = "_currentFrame.CGImage ;} else { [super displayLayer:layer];"
-  op = `sed -ie "s/#{find}/#{replace}/" ../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m`
-  puts("Image fix for ios14 done")
 end

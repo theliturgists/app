@@ -194,7 +194,7 @@ function PatreonError({ error }) {
 }
 
 PatreonError.propTypes = {
-  error: PropTypes.shape({}),
+  error: PropTypes.instanceOf(Error),
 };
 PatreonError.defaultProps = {
   error: null,

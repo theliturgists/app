@@ -39,6 +39,7 @@ import { getCommonNavigationOptions } from '../navigation/common';
 import colors from '../styles/colors';
 
 import { setDropdown } from '../showError';
+import appPropTypes from '../propTypes';
 
 const HomeStack = createStackNavigator();
 
@@ -183,6 +184,10 @@ const TabBar = props => (
     <BottomTabBar {...props} />
   </View>
 );
+
+TabBar.propTypes = {
+  navigation: appPropTypes.navigation.isRequired,
+};
 
 const Tabs = createBottomTabNavigator();
 const TabsNavigator = () => (

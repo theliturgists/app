@@ -62,17 +62,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   downloadIcon: {
-    fontSize: 36,
+    marginTop: 7,
+    fontSize: 30,
   },
   deleteIcon: {
-    fontSize: 36,
+    fontSize: 30,
   },
   progressIcon: {
-    fontSize: 36,
+    fontSize: 30,
   },
   progressIndicator: {
     position: 'absolute',
-    bottom: 12.5,
+    bottom: 13,
   },
 });
 
@@ -101,7 +102,7 @@ const DownloadButton = ({ isDownloaded, downloadProgress, onPress }) => {
     <Progress.Pie
       style={styles.progressIndicator}
       progress={progressValue}
-      size={15}
+      size={12}
       color="white"
     />
   ) : null;
@@ -121,12 +122,14 @@ const DownloadButton = ({ isDownloaded, downloadProgress, onPress }) => {
   );
 };
 
+const downloadProgressPropType = PropTypes.shape({
+  totalBytesWritten: PropTypes.number.isRequired,
+  totalBytesExpectedToWrite: PropTypes.number.isRequired,
+});
+
 DownloadButton.propTypes = {
   isDownloaded: PropTypes.bool.isRequired,
-  downloadProgress: PropTypes.shape({
-    totalBytesWritten: PropTypes.number.isRequired,
-    totalBytesExpectedToWrite: PropTypes.number.isRequired,
-  }),
+  downloadProgress: downloadProgressPropType,
   onPress: PropTypes.func.isRequired,
 };
 
@@ -225,17 +228,24 @@ PlayableItemHeader.propTypes = {
   item: AppPropTypes.mediaItem.isRequired,
   style: ViewPropTypes.style,
   elapsed: momentPropTypes.momentDurationObj,
+  isDownloaded: PropTypes.bool.isRequired,
+  downloadProgress: downloadProgressPropType,
   onPlay: PropTypes.func,
   formatDuration: PropTypes.func,
   formatPublishedAt: PropTypes.func,
+  startDownload: PropTypes.func,
+  removeDownload: PropTypes.func,
 };
 
 PlayableItemHeader.defaultProps = {
   style: {},
   elapsed: moment.duration(),
+  downloadProgress: null,
   onPlay: () => {},
   formatDuration: formatMinutesString,
   formatPublishedAt: formatHumanizeFromNow,
+  startDownload: () => {},
+  removeDownload: () => {},
 };
 
 function mapStateToProps(state, { item }) {

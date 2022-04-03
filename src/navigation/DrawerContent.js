@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Image, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -11,6 +10,8 @@ import PatreonStatus from './PatreonStatus';
 import * as patreon from '../state/ducks/patreon/actions';
 
 import patreonIcon from '../../assets/patreon_icon.png';
+
+import appPropTypes from '../propTypes';
 
 const styles = StyleSheet.create({
   drawer: {
@@ -61,7 +62,7 @@ const DrawerContent = ({ navigation }) => {
 };
 
 DrawerContent.propTypes = {
-  navigation: PropTypes.shape({}).isRequired,
+  navigation: appPropTypes.navigation.isRequired,
 };
 
 export default DrawerContent;
