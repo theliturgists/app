@@ -111,10 +111,6 @@ android {
         // This will later be used to control the test apk build type
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
-        configurations.all {
-            resolutionStrategy { force 'androidx.sqlite:sqlite-framework:2.1.0' }
-        }
     }
     splits {
         abi {
