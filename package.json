@@ -16,7 +16,7 @@
     "detox:build:ios": "detox build -c ios.sim.debug",
     "detox:test:ios": "detox test -c ios.sim.debug",
     "detox:build:android": "detox build -c android.emu.debug",
-    "detox:test:android": "detox test -c android.emu.debug",
+    "detox:test:android": "detox test -c android.emu.debug --record-logs all",
     "dev:ios": "react-native run-ios",
     "dev:android": "react-native run-android",
     "generate-default-config": "[ -f config.json ] || cp config.json.example config.json",
@@ -102,7 +102,6 @@
     "react-native-collapsible": "^1.5.3",
     "react-native-dropdownalert": "^3.7.0",
     "react-native-elements": "^0.19.0",
-    "react-native-flipper": "0.140.0",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-markdown-renderer": "^3.2.8",
     "react-native-music-control": "^0.10.4",
@@ -154,7 +153,7 @@
     "conventional-changelog": "^3.1.24",
     "conventional-recommended-bump": "^6.0.11",
     "cz-conventional-changelog": "3.3.0",
-    "detox": "^19.6.9",
+    "detox": "^19.7.1",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
@@ -254,7 +253,7 @@
         "build": "cd android && ./gradlew clean assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Nexus_6_API_28"
+          "avdName": "Pixel_XL_API_32"
         }
       },
       "android.emu.ci": {
@@ -270,7 +269,7 @@
         "build": "cd android && ./gradlew clean assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Nexus_6_API_28"
+          "avdName": "Pixel_XL_API_32"
         }
       }
     },
