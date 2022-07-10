@@ -1,0 +1,5 @@
+### ⚠ BREAKING CHANGES
+
+* upgrade to expo 44
+
+* upgrade to expo 44

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/theliturgists/app/compare/v1.1.7...v2.0.0) (2022-07-10)
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to expo 44 ([4e68bcf](https://github.com/theliturgists/app/commit/4e68bcf4f165c1cd1c79b94d18dec16927b26585))
+  * Adds iOS 15 support; drops iOS 11 support
+
 ### [1.1.7](https://github.com/theliturgists/app/compare/v1.1.6...v1.1.7) (2022-03-29)
 
 ### [1.1.6](https://github.com/theliturgists/app/compare/v1.1.5...v1.1.6) (2022-03-29)
