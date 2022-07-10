@@ -83,7 +83,7 @@ const CommunityItem = ({
 
   return (
     <View style={styles.item}>
-      <TouchableWithoutFeedback onPress={onPress}>
+      <TouchableWithoutFeedback onPress={() => onPress()}>
         <View style={styles.button} >
           <Text style={styles.buttonText}>{title}</Text>
           {

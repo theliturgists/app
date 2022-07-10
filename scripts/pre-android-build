@@ -12,5 +12,3 @@ manifest="android/app/src/main/AndroidManifest.xml"
 manifest_template="${manifest}.template"
 cp -f $manifest_template $manifest
 sed -i.bak "s/android:name=\"expo.modules.updates.EXPO_RELEASE_CHANNEL\" android:value=\".*\"/android:name=\"expo.modules.updates.EXPO_RELEASE_CHANNEL\" android:value=\"${EXPO_RELEASE_CHANNEL}\"/" ${manifest}
-
-npx jetify

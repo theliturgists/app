@@ -96,7 +96,7 @@ const AboutScreen = () => {
           <Button
             title="Check for Updates"
             disabled={updateResult === null}
-            onPress={checkForUpdates}
+            onPress={() => checkForUpdates()}
           />
         )
       }
@@ -105,7 +105,7 @@ const AboutScreen = () => {
           <Button
             title={updating ? 'Updating...' : 'Update'}
             disabled={updating}
-            onPress={loadUpdate}
+            onPress={() => loadUpdate()}
           />
         )
       }

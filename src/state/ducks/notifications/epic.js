@@ -55,8 +55,7 @@ const registerEpic = action$ =>
 
       return Observable.create(
         (subscriber) => {
-          messaging().registerDeviceForRemoteMessages()
-            .then(() => messaging().getToken())
+          messaging().getToken()
             .then((token) => {
               subscriber.next(saveToken(token));
               subscriber.next(updatePatronNotificationSubscriptions());

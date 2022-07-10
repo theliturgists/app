@@ -7,26 +7,35 @@
 
 #import "AppDelegate.h"
 
-#import <React/RCTBundleURLProvider.h>
-#import <React/RCTLinkingManager.h>
-#import <React/RCTRootView.h>
-
-// https://github.com/facebook/react-native/issues/16376#issuecomment-350523177
-#if RCT_DEV && __has_include(<React/RCTDevLoadingView.h>)
+#if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
 
-#import <UMCore/UMModuleRegistry.h>
-#import <UMReactNativeAdapter/UMNativeModulesProxy.h>
-#import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h>
+#import <React/RCTRootView.h>
+#import <React/RCTConvert.h>
+
+ #if defined(FB_SONARKIT_ENABLED) && __has_include(<FlipperKit/FlipperClient.h>)
+ #import <FlipperKit/FlipperClient.h>
+ #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
+ #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+ #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
+ #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
+ #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
+ static void InitializeFlipper(UIApplication *application) {
+   FlipperClient *client = [FlipperClient sharedClient];
+   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
+   [client addPlugin:[[FlipperKitLayoutPlugin alloc] initWithRootNode:application withDescriptorMapper:layoutDescriptorMapper]];
+   [client addPlugin:[[FKUserDefaultsPlugin alloc] initWithSuiteName:nil]];
+   [client addPlugin:[FlipperKitReactPlugin new]];
+   [client addPlugin:[[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
+   [client start];
+ }
+ #endif
 
 #import <Firebase.h>
-
-@interface AppDelegate ()
-
-@property (nonatomic, strong) NSDictionary *launchOptions;
-
-@end
 
 @implementation AppDelegate
 
@@ -41,17 +50,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
-  self.launchOptions = launchOptions;
+#if defined(FB_SONARKIT_ENABLED) && __has_include(<FlipperKit/FlipperClient.h>)
+  InitializeFlipper(application);
+#endif
+
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  #if RCT_DEV
+    [bridge moduleForClass:[RCTDevLoadingView class]];
+  #endif
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"main" initialProperties:nil];
+  id rootViewBackgroundColor = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RCTRootViewBackgroundColor"];
+  if (rootViewBackgroundColor != nil) {
+    rootView.backgroundColor = [RCTConvert UIColor:rootViewBackgroundColor];
+  } else {
+    rootView.backgroundColor = [UIColor whiteColor];
+  }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-#ifdef DEBUG
-  [self initializeReactNativeApp];
-#else
-  EXUpdatesAppController *controller = [EXUpdatesAppController sharedInstance];
-  controller.delegate = self;
-  [controller startAndShowLaunchScreen:self.window];
-#endif
+  UIViewController *rootViewController = [UIViewController new];
+  rootViewController.view = rootView;
+  self.window.rootViewController = rootViewController;
+  [self.window makeKeyAndVisible];
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
@@ -62,45 +82,18 @@
   return YES;
 }
 
-- (RCTBridge *)initializeReactNativeApp
-{
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:self.launchOptions];
-
-  // https://github.com/facebook/react-native/issues/16376#issuecomment-350523177
-  #if RCT_DEV && __has_include(<React/RCTDevLoadingView.h>)
-  [bridge moduleForClass:[RCTDevLoadingView class]];
-  #endif
-
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"main" initialProperties:nil];
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-
-  return bridge;
-}
-
 - (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
 {
-  NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];
-  // You can inject any extra modules that you would like here, more information at:
-  // https://facebook.github.io/react-native/docs/native-modules-ios.html#dependency-injection
-  return extraModules;
+  // If you'd like to export some custom RCTBridgeModules that are not Expo modules, add them here!
+  return @[];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
 #ifdef DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
-  return [[EXUpdatesAppController sharedInstance] launchAssetUrl];
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
-}
-
-- (void)appController:(EXUpdatesAppController *)appController didStartWithSuccess:(BOOL)success
-{
-  appController.bridge = [self initializeReactNativeApp];
 }
 
 @end

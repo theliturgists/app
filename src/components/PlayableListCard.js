@@ -221,6 +221,7 @@ PlayableListCard.propTypes = {
   elapsed: PropTypes.string,
   formatTitle: PropTypes.func,
   formatDuration: PropTypes.func,
+  formatPublishedAt: PropTypes.func,
   renderDescription: PropTypes.func,
   isSearchResult: PropTypes.bool,
   canAccess: PropTypes.bool.isRequired,

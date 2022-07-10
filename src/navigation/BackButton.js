@@ -7,7 +7,7 @@ import appPropTypes from '../propTypes';
 
 const styles = StyleSheet.create({
   backIcon: {
-    fontSize: 36,
+    fontSize: 24,
     paddingHorizontal: 20,
   },
 });
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
  */
 const BackButton = ({ navigation }) => (
   <Icon
-    name="ios-arrow-round-back"
+    name="arrow-back-outline"
     style={styles.backIcon}
     onPress={() => navigation.goBack()}
   />

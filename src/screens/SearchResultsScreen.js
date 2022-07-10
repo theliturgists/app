@@ -70,7 +70,7 @@ SearchResultsScreen.propTypes = {
   ).isRequired,
   refreshing: PropTypes.bool.isRequired,
   refresh: PropTypes.func.isRequired,
-  route: PropTypes.shape({}).isRequired,
+  route: PropTypes.shape({ params: { type: PropTypes.string } }).isRequired,
 };
 
 function makeMapStateToProps(factoryState, { route }) {

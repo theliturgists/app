@@ -52,7 +52,7 @@ const DrawerItem = ({
 );
 
 DrawerItem.propTypes = {
-  drawer: PropTypes.shape({}),
+  drawer: PropTypes.shape({ closeDrawer: PropTypes.func.isRequired }),
   image: PropTypes.node,
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
