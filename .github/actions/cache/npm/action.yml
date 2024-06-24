@@ -1,0 +1,13 @@
+name: 'Cache NPM modules'
+description: 'Install and cache NPM modules'
+runs:
+  using: "composite"
+  steps:
+    - name: Cache npm cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Install npm modules
+      run: npm ci
+      shell: bash

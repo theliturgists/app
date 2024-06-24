@@ -1,0 +1,21 @@
+name: 'Cache Rubygems'
+description: 'Install and cache Ruby gems'
+inputs:
+  working-directory:
+    description: 'Working directory'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Cache gems
+      uses: actions/cache@v2
+      with:
+        path: ${{ inputs.working-directory }}/vendor/bundle
+        key: ${{ format('{0}-gems-{1}-{2}', runner.os, inputs.working-directory, hashFiles(format('{0}/Gemfile.lock', inputs.working-directory))) }}
+    - name: Install gems
+      run: |
+        gem install xcpretty bundler --no-document
+        bundle config path vendor/bundle
+        bundle install
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash

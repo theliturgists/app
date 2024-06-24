@@ -32,15 +32,15 @@ jobs:
           node-version: '12'
       - uses: ruby/setup-ruby@v1
 
-      - uses: ktmud/cached-dependencies@v1
-        with:
-          caches: ${{ github.workspace }}/.github/workflows/caches/ios.js
-          bashlib: ${{ github.workspace }}/.github/workflows/bashlib/ios.sh
-          parallel: true
+      - uses: ./.github/actions/cache/ios
 
       - uses: webfactory/ssh-agent@v0.4.1
         with:
           ssh-private-key: ${{ secrets.FASTLANE_MATCH_DEPLOY_PRIVATE_KEY }}
+
+      - uses: mikehardy/buildcache-action@v1
+        with:
+          cache_key: main-ios-buildcache
         
       - run: npm run ci:generate-app-config
       - run: npm run beta:ios
@@ -63,11 +63,7 @@ jobs:
           node-version: '12'
       - uses: ruby/setup-ruby@v1
 
-      - uses: ktmud/cached-dependencies@v1
-        with:
-          caches: ${{ github.workspace }}/.github/workflows/caches/android.js
-          bashlib: ${{ github.workspace }}/.github/workflows/bashlib/android.sh
-          parallel: true
+      - uses: ./.github/actions/cache/android
 
       - run: npm run ci:generate-app-config
       - run: |

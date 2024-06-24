@@ -1,0 +1,16 @@
+name: 'Cache all iOS dependencies'
+description: 'Install and cache all iOS dependencies'
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/actions/cache/npm
+    - uses: ./.github/actions/cache/gems
+      with:
+        working-directory: ios
+    - uses: actions/cache@v2
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-cocoapods-${{ hashFiles('ios/Podfile.lock') }}
+    - run: bundle exec pod install
+      working-directory: ios
+      shell: bash
